@@ -6,6 +6,7 @@ Landing page for the Carlton Wellness franchise, with a two-step lead form and a
 
 ```
 carlton-wellness-landingPage/
+├── api/                Vercel serverless entry point (routes /api/* to the backend)
 ├── backend/            Lead API (Node.js + Express) that validates form submissions
 ├── database/           Left for the developer: lead fields the database needs to store
 ├── deploy/             Build script, PM2 process file, Nginx example, deployment guide
@@ -15,12 +16,13 @@ carlton-wellness-landingPage/
 │   └── frontend/
 ├── .gitignore
 ├── package.json        Root scripts (dev, build, test)
+├── vercel.json         Vercel settings (static frontend + API function)
 └── README.md
 ```
 
 ## Run locally
 
-Requires Node.js 18 or newer.
+Requires Node.js 22.
 
 ```bash
 npm run install:backend
@@ -51,7 +53,7 @@ Copy `backend/.env.example` to `backend/.env` and edit it. Key settings:
 | `CORS_ORIGINS` | Only if the page and API are on different domains |
 | `META_PIXEL_ID` | Meta Pixel ID, used when the backend serves the page |
 
-For static hosting without the backend, set `formEndpoint` and `metaPixelId` in `frontend/config.js`.
+`frontend/config.js` sends leads to `/api/leads` by default, which works on Vercel and on the Node.js server. If the page is hosted on its own, set `formEndpoint` to the backend's full URL. Set `metaPixelId` there too.
 
 ## Scripts (from the repo root)
 

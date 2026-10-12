@@ -10,7 +10,13 @@ npm run build
 
 This refreshes `release/frontend` (the static page) and `release/backend` (the lead API).
 
-## 2. Option A: one Node.js server (simplest)
+## 2. Option A: Vercel (simplest)
+
+Import the GitHub repo in Vercel and deploy. No settings to change: `vercel.json` serves `frontend/` as the site and runs the backend as a function for `/api/*`.
+
+Until the database is connected in `backend/src/leadStore.js`, leads only appear in the Vercel function logs (Project > Logs).
+
+## 3. Option B: one Node.js server
 
 The backend serves the page and the API together.
 
@@ -21,17 +27,17 @@ The backend serves the page and the API together.
 
 When the page is served by the backend, the backend sets the form endpoint to `/api/leads` automatically.
 
-## 3. Option B: static hosting + separate API
+## 4. Option C: static hosting + separate API
 
 1. Upload `release/frontend` to the web root (cPanel `public_html`, S3, Vercel, Netlify, etc.).
 2. Run `release/backend` on a Node.js host with `SERVE_FRONTEND=false` and `CORS_ORIGINS` set to the page's domain.
-3. In `frontend/config.js`, set `formEndpoint` to the full API URL, e.g. `https://api.example.com/api/leads`.
+3. In `frontend/config.js`, change `formEndpoint` from `/api/leads` to the full API URL, e.g. `https://api.example.com/api/leads`.
 
 ## Settings in `frontend/config.js`
 
 | Setting | Purpose |
 |---|---|
-| `formEndpoint` | Where leads are sent. Empty = the thank-you screen still shows but leads are NOT sent |
+| `formEndpoint` | Where leads are sent. Default `/api/leads` (Vercel or the Node.js server). Empty = the thank-you screen still shows but leads are NOT sent |
 | `metaPixelId` | Meta Pixel ID for PageView and Lead events |
 
 ## Check it works
